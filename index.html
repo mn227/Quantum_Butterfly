@@ -167,7 +167,17 @@
             {
                 question: "What color is your aura right now?", 
                 type: "text"
-            }
+            },
+            {
+                question: "Do you like Meenakshi?", 
+                type: "select", 
+                options: ["Yes", "No", "Maybe"]
+            },
+             {
+                question: "How much do you like Meenakshi?", 
+                type: "select", 
+                options: ["10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "infinite"]
+            },
         ];
 
         let answers = []; // Array to store the answers
@@ -213,6 +223,8 @@
                     method: 'POST',
                     body: JSON.stringify(data),
                     headers: { 'Content-Type': 'application/json' }
+                    // Ensure CORS handling in fetch
+                    mode: 'cors'
                 })
                 .then(response => response.text())
                 .then(response => console.log('Response:', response))
