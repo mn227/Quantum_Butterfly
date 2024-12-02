@@ -219,12 +219,11 @@
                     answer: answer
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbytX24dl6zbzCC5Fh1x1RlkgHDqM0L6g2KYLqmmP0pFPGfsM-nGVCoUF48hTUpCx25Fqg/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbwW9ckorwLoXacv1yvi1gTk6kxSbYD9D9_AmdIJAX_wagvJ0kj0IDAmTjViryuQ1shz/exec', {
                     method: 'POST',
                     body: JSON.stringify(data),
-                    headers: { 'Content-Type': 'application/json' },
-                    // Ensure CORS handling in fetch
-                    mode: 'no-cors'
+                    headers: { 'Content-Type': 'application/json' }
+                    
                 })
                 .then(response => response.text())
                 .then(response => console.log('Response:', response))
