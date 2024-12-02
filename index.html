@@ -170,29 +170,45 @@
             }
         ];
 
-
         let answers = []; // Array to store the answers
 
+        // Show the current question dynamically
         function showQuestion() {
             let container = document.getElementById("question-container");
             if (questionIndex < questions.length) {
-                container.innerHTML = `<p>${questions[questionIndex]}</p><input type="text" id="answer" placeholder="Your answer...">`;
+                let questionObj = questions[questionIndex];
+                if (questionObj.type === "text") {
+                    // Render a text input for text type questions
+                    container.innerHTML = `<p>${questionObj.question}</p><input type="text" id="answer" placeholder="Your answer...">`;
+                } else if (questionObj.type === "select") {
+                    // Render a select dropdown for select type questions
+                    let optionsHTML = questionObj.options.map(option => `<option value="${option}">${option}</option>`).join("");
+                    container.innerHTML = `  
+                        <p>${questionObj.question}</p>
+                        <select id="answer">${optionsHTML}</select>
+                    `;
+                }
             } else {
-                container.innerHTML = `<p>Congratulations! You have completed the survey!</p><p>But did you really?</p>`;
-                document.querySelector("button").disabled = true;
+                // Show completion message
+                container.innerHTML = `
+                    <p>Congratulations! You have completed the survey!</p>
+                    <p>Thanks for sharing your thoughts with us! You’re awesome!</p>
+                `;
+                document.querySelector("button").disabled = true; // Disable the button after completion
             }
         }
 
+        // Move to the next question
         function nextQuestion() {
             let answerInput = document.getElementById("answer");
             let answer = answerInput.value.trim();
-        
+
             if (answer) {
                 let data = {
-                    question: questions[questionIndex],
+                    question: questions[questionIndex].question,
                     answer: answer
                 };
-        
+
                 fetch('https://script.google.com/macros/s/AKfycbynvwCe-bNECJTCV7v0ser4yl3F0zDXyyR73WDcCW0yvuPjqPzoohDDYloFq6tquZQsYw/exec', {
                     method: 'POST',
                     body: JSON.stringify(data),
@@ -201,16 +217,14 @@
                 .then(response => response.text())
                 .then(response => console.log('Response:', response))
                 .catch(error => console.error('Error:', error));
-        
+
                 answers.push(answer); // Store the answer, but don't display it
             }
-        
-            answerInput.value = ''; 
+
+            answerInput.value = '';
             questionIndex++;
             showQuestion();
         }
-        
-        
 
         // Show the first question initially
         showQuestion();
