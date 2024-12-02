@@ -219,17 +219,14 @@
                     answer: answer
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbwqtvn47DAPPmyUH36K6ETtallDUJ81wAnD9OQfsmVQEWO-x_oX8nq23qgyepTllZG1fg/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbyP9FVkRm6yBBHjfMafS0sz9iy4SRxBBJvXBwI_ynEy92FL55u7c0azOeRdXMaeDK6lFw/exec', {
                     method: 'POST',
                     body: JSON.stringify(data),
                     headers: { 'Content-Type': 'application/json' }
                 })
-                .then(response => response.text())
-                .then(response => console.log('Response:', response))
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('There was an error submitting your response. Please try again.');
-                });
+                .then(response => response.text()) 
+                .then(response => console.log('Response:', response)) 
+                .catch(error => console.error('Error:', error));
 
                 answers.push(answer); // Store the answer, but don't display it
             }
