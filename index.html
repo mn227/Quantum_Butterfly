@@ -65,39 +65,111 @@
             <!-- Dynamic Questions will be inserted here -->
         </div>
         <button onclick="nextQuestion()">Next</button>
-        <div id="answers-container" class="hidden">
-            <h3>Answers so far:</h3>
-            <ul id="answers-list"></ul>
-        </div>
     </div>
 
     <script>
         let questionIndex = 0;
         let questions = [
             // First 10 normal questions
-            "What is your age?",
-            "What is your gender?",
-            "How satisfied are you with your current job?",
-            "How often do you exercise?",
-            "What is your favorite cuisine?",
-            "How many hours do you sleep on average?",
-            "What is your highest level of education?",
-            "How often do you use social media?",
-            "Do you prefer working from home or in the office?",
-            "How would you rate your productivity this week?",
-            
+            {
+                question: "What is your age?", 
+                type: "text"
+            },
+            {
+                question: "What is your gender?", 
+                type: "select", 
+                options: ["Male", "Female", "Non-binary", "Prefer not to say"]
+            },
+            {
+                question: "How satisfied are you with your current job?", 
+                type: "select", 
+                options: ["Very Satisfied", "Satisfied", "Neutral", "Dissatisfied", "Very Dissatisfied"]
+            },
+            {
+                question: "How often do you exercise?", 
+                type: "select", 
+                options: ["Daily", "A few times a week", "Once a week", "Rarely", "Never"]
+            },
+            {
+                question: "What is your favorite cuisine?", 
+                type: "select", 
+                options: ["Italian", "Chinese", "Indian", "Mexican", "American", "Other"]
+            },
+            {
+                question: "How many hours do you sleep on average?", 
+                type: "select", 
+                options: ["Less than 5 hours", "5-6 hours", "7-8 hours", "9+ hours"]
+            },
+            {
+                question: "What is your highest level of education?", 
+                type: "select", 
+                options: ["High School", "Associate's Degree", "Bachelor's Degree", "Master's Degree", "Doctoral Degree"]
+            },
+            {
+                question: "How often do you use social media?", 
+                type: "select", 
+                options: ["Several times a day", "Once a day", "A few times a week", "Once a week", "Rarely", "Never"]
+            },
+            {
+                question: "Do you prefer working from home or in the office?", 
+                type: "select", 
+                options: ["Working from home", "Working in the office", "Hybrid (Both)"]
+            },
+            {
+                question: "How would you rate your productivity this week?", 
+                type: "select", 
+                options: ["Very productive", "Productive", "Neutral", "Unproductive", "Very unproductive"]
+            },
+
             // Bizarre questions
-            "Have you ever seen a penguin dance?",
-            "How often do you talk to your plants?",
-            "If you could be a vegetable, which one would you be?",
-            "What’s your strategy for escaping a zombie apocalypse?",
-            "Do you think pigeons are spying on us?",
-            "How many times have you traveled to Mars this year?",
-            "If your computer had feelings, would it be happy with you?",
-            "Would you prefer to fight one horse-sized duck or 100 duck-sized horses?",
-            "How many forks do you own?",
-            "What color is your aura right now?"
+            {
+                question: "Have you ever seen a penguin dance?", 
+                type: "select", 
+                options: ["Yes", "No", "Not sure"]
+            },
+            {
+                question: "How often do you talk to your plants?", 
+                type: "select", 
+                options: ["Every day", "Occasionally", "Never"]
+            },
+            {
+                question: "If you could be a vegetable, which one would you be?", 
+                type: "text"
+            },
+            {
+                question: "What’s your strategy for escaping a zombie apocalypse?", 
+                type: "text"
+            },
+            {
+                question: "Do you think pigeons are spying on us?", 
+                type: "select", 
+                options: ["Yes", "No", "Maybe"]
+            },
+            {
+                question: "How many times have you traveled to Mars this year?", 
+                type: "select", 
+                options: ["0 times", "1-2 times", "3+ times"]
+            },
+            {
+                question: "If your computer had feelings, would it be happy with you?", 
+                type: "select", 
+                options: ["Yes", "No", "It depends on the day"]
+            },
+            {
+                question: "Would you prefer to fight one horse-sized duck or 100 duck-sized horses?", 
+                type: "select", 
+                options: ["One horse-sized duck", "100 duck-sized horses", "Neither"]
+            },
+            {
+                question: "How many forks do you own?", 
+                type: "text"
+            },
+            {
+                question: "What color is your aura right now?", 
+                type: "text"
+            }
         ];
+
 
         let answers = []; // Array to store the answers
 
@@ -130,8 +202,7 @@
                 .then(response => console.log('Response:', response))
                 .catch(error => console.error('Error:', error));
         
-                answers.push(answer); 
-                updateAnswerList(); 
+                answers.push(answer); // Store the answer, but don't display it
             }
         
             answerInput.value = ''; 
@@ -139,18 +210,7 @@
             showQuestion();
         }
         
-
-        function updateAnswerList() {
-            let answersContainer = document.getElementById("answers-container");
-            let answersList = document.getElementById("answers-list");
-            answersList.innerHTML = ''; // Clear previous list
-
-            answers.forEach((ans, index) => {
-                answersList.innerHTML += `<li><strong>${questions[index]}</strong>: ${ans}</li>`;
-            });
-
-            answersContainer.classList.remove("hidden"); // Show the answers container
-        }
+        
 
         // Show the first question initially
         showQuestion();
