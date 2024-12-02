@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Survey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .survey-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: 60%;
+            margin: 0 auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 24px;
+            color: #007bff;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        input[type="text"], select, button {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        #answers-container {
+            text-align: left;
+            margin-top: 30px;
+            font-size: 14px;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="survey-container">
+        <h1>Ultimate Survey - Let's Get to Know You!</h1>
+        <div id="question-container" class="question">
+            <!-- Dynamic Questions will be inserted here -->
+        </div>
+        <button onclick="nextQuestion()">Next</button>
+        <div id="answers-container" class="hidden">
+            <h3>Answers so far:</h3>
+            <ul id="answers-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        let questionIndex = 0;
+        let questions = [
+            // First 10 normal questions
+            "What is your age?",
+            "What is your gender?",
+            "How satisfied are you with your current job?",
+            "How often do you exercise?",
+            "What is your favorite cuisine?",
+            "How many hours do you sleep on average?",
+            "What is your highest level of education?",
+            "How often do you use social media?",
+            "Do you prefer working from home or in the office?",
+            "How would you rate your productivity this week?",
+            
+            // Bizarre questions
+            "Have you ever seen a penguin dance?",
+            "How often do you talk to your plants?",
+            "If you could be a vegetable, which one would you be?",
+            "What’s your strategy for escaping a zombie apocalypse?",
+            "Do you think pigeons are spying on us?",
+            "How many times have you traveled to Mars this year?",
+            "If your computer had feelings, would it be happy with you?",
+            "Would you prefer to fight one horse-sized duck or 100 duck-sized horses?",
+            "How many forks do you own?",
+            "What color is your aura right now?"
+        ];
+
+        let answers = []; // Array to store the answers
+
+        function showQuestion() {
+            let container = document.getElementById("question-container");
+            if (questionIndex < questions.length) {
+                container.innerHTML = `<p>${questions[questionIndex]}</p><input type="text" id="answer" placeholder="Your answer...">`;
+            } else {
+                container.innerHTML = `<p>Congratulations! You have completed the survey!</p><p>But did you really?</p>`;
+                document.querySelector("button").disabled = true;
+            }
+        }
+
+        function nextQuestion() {
+            let answerInput = document.getElementById("answer");
+            let answer = answerInput.value.trim();
+        
+            if (answer) {
+                let data = {
+                    question: questions[questionIndex],
+                    answer: answer
+                };
+        
+                fetch('https://script.google.com/macros/s/AKfycbynvwCe-bNECJTCV7v0ser4yl3F0zDXyyR73WDcCW0yvuPjqPzoohDDYloFq6tquZQsYw/exec', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(response => response.text())
+                .then(response => console.log('Response:', response))
+                .catch(error => console.error('Error:', error));
+        
+                answers.push(answer); 
+                updateAnswerList(); 
+            }
+        
+            answerInput.value = ''; 
+            questionIndex++;
+            showQuestion();
+        }
+        
+
+        function updateAnswerList() {
+            let answersContainer = document.getElementById("answers-container");
+            let answersList = document.getElementById("answers-list");
+            answersList.innerHTML = ''; // Clear previous list
+
+            answers.forEach((ans, index) => {
+                answersList.innerHTML += `<li><strong>${questions[index]}</strong>: ${ans}</li>`;
+            });
+
+            answersContainer.classList.remove("hidden"); // Show the answers container
+        }
+
+        // Show the first question initially
+        showQuestion();
+    </script>
+
+</body>
+</html>
